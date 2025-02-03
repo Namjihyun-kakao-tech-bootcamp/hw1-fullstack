@@ -2,14 +2,14 @@ package locker.view;
 
 import java.util.List;
 
-public final class LockerOutputView extends OutputView {
+public final class LockerOutputView extends LockerView {
 
     private StringBuilder message;
     private Long idx;
 
     public String status(Long col, List<Long> occupiedLockerIds) {
         this.idx = 1L;
-        this.message = new StringBuilder("보관함의 현재 상태는 다음과 같습니다.\n");
+        this.message = new StringBuilder("\n보관함의 현재 상태는 다음과 같습니다.\n\n");
 
         addHorizontalLine(col);
         message.append("\n|");
