@@ -6,6 +6,8 @@ import locker.repository.LockerRepository;
 import locker.util.DateTimeGenerator;
 import locker.util.PasswordGenerator;
 
+import java.time.Duration;
+
 public class LockerService {
 
     private final PasswordGenerator passwordGenerator;
@@ -18,17 +20,17 @@ public class LockerService {
         this.lockerRepository = lockerRepository;
     }
 
-    public Long lock(Long lockerId) {
+    public void lock(Long lockerId) {
         Locker existingLocker = lockerRepository.getLocker(lockerId);
         lockerRepository.replaceLocker(new OccupiedLocker(
                 lockerId, existingLocker.getSize(), dateTimeGenerator.generate(), passwordGenerator.generate()
         ));
-        return lockerId;
     }
 
     public Long unlock(Long lockerId) {
-        Locker existingLocker = lockerRepository.getLocker(lockerId);
+        OccupiedLocker existingLocker = (OccupiedLocker) lockerRepository.getLocker(lockerId);
+        Long fee = existingLocker.calculateFee(Duration.between(existingLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
         lockerRepository.replaceLocker(new Locker(lockerId, existingLocker.getSize()));
-        return lockerId;
+        return fee;
     }
 }

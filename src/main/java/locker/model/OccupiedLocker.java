@@ -12,4 +12,12 @@ public class OccupiedLocker extends Locker {
         this.createdAt = createdAt;
         this.password = password;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public Long calculateFee(Long totalMinutes) {
+        return this.getSize().calculateFee(totalMinutes);
+    }
 }
