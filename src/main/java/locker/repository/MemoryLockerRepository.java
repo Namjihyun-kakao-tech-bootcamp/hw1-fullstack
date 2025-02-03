@@ -5,7 +5,6 @@ import locker.model.Locker;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemoryLockerRepository implements LockerRepository {
@@ -18,8 +17,8 @@ public class MemoryLockerRepository implements LockerRepository {
     }
 
     @Override
-    public Long saveLocker(Locker locker) {
-        return Objects.requireNonNull(lockers.put(locker.getId(), locker)).getId();
+    public void replaceLocker(Locker locker) {
+        lockers.replace(locker.getId(), locker);
     }
 
     @Override
