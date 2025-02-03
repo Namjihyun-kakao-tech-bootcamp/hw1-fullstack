@@ -44,6 +44,10 @@ public abstract class LockerView extends View {
         this.show("원하는 동작을 선택하세요 >> ");
     }
 
+    public void writeLockerNumberCommand() {
+        this.show("물품을 보관할 보관함의 번호를 입력하세요 >> ");
+    }
+
     public void writePasswordInputCommand() {
         this.show("암호를 입력하세요 >> ");
     }
