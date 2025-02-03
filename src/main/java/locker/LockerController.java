@@ -41,22 +41,38 @@ public class LockerController {
 
     private void lock() {
         lockerView.show(lockerView.status(lockerService.getEmptyLockerIds()));
-        readUntilValid();
+        readIdForLocking();
+        lockerView.readEnter();
     }
 
-    private void readUntilValid() {
+    private void readIdForLocking() {
         try {
-            lockerView.writeLockerNumberCommand();
-            //
-            lockerService.lock(1L);
+            lockerView.writeLockerNumberCommandForLocking();
+            Long idInput = lockerView.readLockerIdInput();
+            lockerView.writeLockerPassword(idInput, lockerService.lock(idInput));
         } catch (RuntimeException e) {
             lockerView.show("\n" + e.getMessage() + "\n");
-            readUntilValid();
+            readIdForLocking();
         }
     }
 
     private void unlock() {
-        //
+        lockerView.show(lockerView.status(lockerService.getEmptyLockerIds()));
+        readIdForUnlocking();
+        lockerView.readEnter();
+    }
+
+    private void readIdForUnlocking() {
+        try {
+            lockerView.writeLockerNumberCommandForUnlocking();
+            Long idInput = lockerView.readLockerIdInput();
+            lockerView.writePasswordInputCommand();
+            Long fee = lockerService.unlock(idInput, lockerView.readPasswordInput());
+            lockerView.writeLockerFee(idInput, fee);
+        } catch (RuntimeException e) {
+            lockerView.show("\n" + e.getMessage() + "\n");
+            readIdForUnlocking();
+        }
     }
 
     private void exit() {

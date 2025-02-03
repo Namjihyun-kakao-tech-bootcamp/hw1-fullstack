@@ -36,10 +36,9 @@ public class LockerService {
     public Long unlock(Long lockerId, String passwordInput) {
         Locker existingLocker = lockerRepository.getLocker(lockerId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 번호의 보관함이 존재하지 않습니다."));
-        if (!(existingLocker instanceof OccupiedLocker)) {
+        if (!(existingLocker instanceof OccupiedLocker occupiedLocker)) {
             throw new IllegalStateException("해당 보관함은 비어 있습니다.");
         }
-        OccupiedLocker occupiedLocker = (OccupiedLocker) existingLocker;
         if (!occupiedLocker.matchPassword(passwordInput)) {
             throw new IllegalStateException("틀린 암호입니다.");
         }
