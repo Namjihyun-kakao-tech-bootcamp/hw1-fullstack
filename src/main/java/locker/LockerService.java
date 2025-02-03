@@ -20,11 +20,12 @@ public class LockerService {
         this.lockerRepository = lockerRepository;
     }
 
-    public void lock(Long lockerId) {
+    public String lock(Long lockerId) {
         Locker existingLocker = lockerRepository.getLocker(lockerId);
         lockerRepository.replaceLocker(new OccupiedLocker(
                 lockerId, existingLocker.getSize(), dateTimeGenerator.generate(), passwordGenerator.generate()
         ));
+        return passwordGenerator.generate();
     }
 
     public Long unlock(Long lockerId) {
