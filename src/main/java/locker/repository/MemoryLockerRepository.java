@@ -1,6 +1,7 @@
 package locker.repository;
 
 import locker.model.Locker;
+import locker.model.OccupiedLocker;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,7 +24,6 @@ public class MemoryLockerRepository implements LockerRepository {
 
     @Override
     public List<Locker> getOccupiedLockers() {
-        // TODO : 사용 중인 Locker의 List를 반환하는 메서드 구현
-        return List.of();
+        return lockers.values().stream().filter(locker -> !(locker instanceof OccupiedLocker)).toList();
     }
 }
