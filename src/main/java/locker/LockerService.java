@@ -7,6 +7,7 @@ import locker.util.DateTimeGenerator;
 import locker.util.PasswordGenerator;
 
 import java.time.Duration;
+import java.util.List;
 
 public class LockerService {
 
@@ -21,7 +22,11 @@ public class LockerService {
     }
 
     public String lock(Long lockerId) {
-        Locker existingLocker = lockerRepository.getLocker(lockerId);
+        Locker existingLocker = lockerRepository.getLocker(lockerId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 번호의 보관함이 존재하지 않습니다."));
+        if (existingLocker instanceof OccupiedLocker) {
+            throw new IllegalStateException("해당 보관함은 이미 사용 중입니다.");
+        }
         lockerRepository.replaceLocker(new OccupiedLocker(
                 lockerId, existingLocker.getSize(), dateTimeGenerator.generate(), passwordGenerator.generate()
         ));
@@ -29,12 +34,20 @@ public class LockerService {
     }
 
     public Long unlock(Long lockerId, String passwordInput) {
-        OccupiedLocker existingLocker = (OccupiedLocker) lockerRepository.getLocker(lockerId);
-        if (!existingLocker.matchPassword(passwordInput)) {
+        Locker existingLocker = lockerRepository.getLocker(lockerId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 번호의 보관함이 존재하지 않습니다."));
+        if (!(existingLocker instanceof OccupiedLocker occupiedLocker)) {
+            throw new IllegalStateException("해당 보관함은 비어 있습니다.");
+        }
+        if (!occupiedLocker.matchPassword(passwordInput)) {
             throw new IllegalStateException("틀린 암호입니다.");
         }
-        Long fee = existingLocker.calculateFee(Duration.between(existingLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
-        lockerRepository.replaceLocker(new Locker(lockerId, existingLocker.getSize()));
+        Long fee = occupiedLocker.calculateFee(Duration.between(occupiedLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
+        lockerRepository.replaceLocker(new Locker(lockerId, occupiedLocker.getSize()));
         return fee;
+    }
+
+    public List<Long> getEmptyLockerIds() {
+        return lockerRepository.getOccupiedLockers().stream().map(Locker::getId).toList();
     }
 }

@@ -7,8 +7,6 @@ public abstract class LockerView extends View {
 
     private static final String DIVIDER = "=====================";
 
-    public static final String passwordSuccess = "보관함이 열렸습니다.\n";
-
     public int readMenuInput() {
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
@@ -28,6 +26,16 @@ public abstract class LockerView extends View {
         return scanner.nextLine();
     }
 
+    public void readEnter() {
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+
+    public Long readLockerIdInput() {
+        Scanner scanner = new Scanner(System.in);
+        return Long.valueOf(scanner.nextLine());
+    }
+
     public void writeGreeting() {
         this.show("\n안녕하세요.\n물품 보관함 서비스입니다.\n");
     }
@@ -44,13 +52,25 @@ public abstract class LockerView extends View {
         this.show("원하는 동작을 선택하세요 >> ");
     }
 
-    public void writeLockerNumberCommand() {
+    public void writeLockerNumberCommandForLocking() {
         this.show("물품을 보관할 보관함의 번호를 입력하세요 >> ");
+    }
+
+    public void writeLockerNumberCommandForUnlocking() {
+        this.show("물품을 꺼낼 보관함의 번호를 입력하세요 >> ");
+    }
+
+    public void writeLockerPassword(Long id, String password) {
+        this.show(String.format("%d번 보관함이 열렸습니다. 물건을 넣고 문을 닫아 주세요.\n비밀번호는 %s입니다.\n처음으로 돌아가려면 Enter를 눌러 주세요.\n", id, password));
     }
 
     public void writePasswordInputCommand() {
         this.show("암호를 입력하세요 >> ");
     }
 
-    public abstract String status(Long col, List<Long> occupiedLockerIds);
+    public void writeLockerFee(Long id, Long fee) {
+        this.show(String.format("%d번 보관함이 열렸습니다. 물건을 꺼내고 문을 닫아 주세요.\n요금은 %s원입니다.\n결제 후 Enter를 눌러 주세요.\n", id, fee));
+    }
+
+    public abstract String status(List<Long> occupiedLockerIds);
 }

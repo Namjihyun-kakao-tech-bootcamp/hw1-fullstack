@@ -3,10 +3,11 @@ package locker.repository;
 import locker.model.Locker;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LockerRepository {
 
-    Locker getLocker(Long id);
+    Optional<Locker> getLocker(Long id);
     void replaceLocker(Locker locker);
     List<Locker> getOccupiedLockers();
 }
