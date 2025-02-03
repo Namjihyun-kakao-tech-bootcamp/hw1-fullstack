@@ -14,14 +14,14 @@ public enum Size {
         this.condition = condition;
     }
 
-    public Integer calculateFee(Integer totalMinutes) {
+    public Long calculateFee(Long totalMinutes) {
         return this.condition.calculateFee(totalMinutes);
     }
 
     private record Condition(Integer baseMinutes, Integer baseFee, Integer unitMinutes, Integer feePerUnit) {
 
-        private Integer calculateFee(Integer totalMinutes) {
-            return baseFee + feePerUnit * (int) Math.ceil( 1.0 * (totalMinutes - baseMinutes) / unitMinutes);
+        private Long calculateFee(Long totalMinutes) {
+            return baseFee + feePerUnit * (long) Math.ceil( 1.0 * (totalMinutes - baseMinutes) / unitMinutes);
         }
     }
 }

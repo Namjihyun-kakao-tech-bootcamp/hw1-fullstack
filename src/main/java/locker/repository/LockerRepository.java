@@ -7,6 +7,6 @@ import java.util.List;
 public interface LockerRepository {
 
     Locker getLocker(Long id);
-    Long saveLocker(Locker locker);
+    void replaceLocker(Locker locker);
     List<Locker> getOccupiedLockers();
 }

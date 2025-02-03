@@ -16,6 +16,10 @@ public class Locker {
         return id;
     }
 
+    public Size getSize() {
+        return size;
+    }
+
     private void validateId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Locker의 id는 null일 수 없습니다.");
