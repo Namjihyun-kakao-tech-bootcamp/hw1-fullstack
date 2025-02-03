@@ -28,6 +28,11 @@ public abstract class LockerView extends View {
         return scanner.nextLine();
     }
 
+    public Long readLockerIdInput() {
+        Scanner scanner = new Scanner(System.in);
+        return Long.valueOf(scanner.nextLine());
+    }
+
     public void writeGreeting() {
         this.show("\n안녕하세요.\n물품 보관함 서비스입니다.\n");
     }
@@ -52,5 +57,5 @@ public abstract class LockerView extends View {
         this.show("암호를 입력하세요 >> ");
     }
 
-    public abstract String status(Long col, List<Long> occupiedLockerIds);
+    public abstract String status(List<Long> occupiedLockerIds);
 }

@@ -7,6 +7,7 @@ import locker.util.DateTimeGenerator;
 import locker.util.PasswordGenerator;
 
 import java.time.Duration;
+import java.util.List;
 
 public class LockerService {
 
@@ -36,5 +37,9 @@ public class LockerService {
         Long fee = existingLocker.calculateFee(Duration.between(existingLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
         lockerRepository.replaceLocker(new Locker(lockerId, existingLocker.getSize()));
         return fee;
+    }
+
+    public List<Long> getEmptyLockerIds() {
+        return lockerRepository.getOccupiedLockers().stream().map(Locker::getId).toList();
     }
 }
