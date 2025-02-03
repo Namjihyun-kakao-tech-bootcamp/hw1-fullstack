@@ -5,10 +5,9 @@ import java.util.Scanner;
 
 public abstract class LockerView extends View {
 
-    public static final String greet = "===================\n안녕하세요.\n물품 보관함 서비스입니다.\n";
-    public static final String menu = "===================\n1. 물품 보관\n2. 물품 회수\n3. 종료\n===================\n";
-    public static final String selectionCommand = "원하는 동작을 선택하세요 >> ";
-    public static final String passwordCommand = "암호를 입력하세요 >> ";
+    private static final String DIVIDER = "=====================";
+
+    public static final String passwordSuccess = "보관함이 열렸습니다.\n";
 
     public int readMenuInput() {
         Scanner scanner = new Scanner(System.in);
@@ -27,6 +26,26 @@ public abstract class LockerView extends View {
     public String readPasswordInput() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    public void writeGreeting() {
+        this.show("\n안녕하세요.\n물품 보관함 서비스입니다.\n");
+    }
+
+    public void writeMenu() {
+        this.show(DIVIDER + "\n1. 물품 보관\n2. 물품 회수\n3. 종료\n" + DIVIDER + "\n");
+    }
+
+    public void writeExit() {
+        this.show(DIVIDER + "\n서비스를 종료합니다.\n감사합니다.\n");
+    }
+
+    public void writeMenuCommand() {
+        this.show("원하는 동작을 선택하세요 >> ");
+    }
+
+    public void writePasswordInputCommand() {
+        this.show("암호를 입력하세요 >> ");
     }
 
     public abstract String status(Long col, List<Long> occupiedLockerIds);
