@@ -6,7 +6,7 @@ import locker.repository.LockerRepository;
 import locker.util.DateTimeGenerator;
 import locker.util.PasswordGenerator;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class LockerService {
@@ -42,9 +42,9 @@ public class LockerService {
         if (!occupiedLocker.matchPassword(passwordInput)) {
             throw new IllegalStateException("틀린 암호입니다.");
         }
-        Long fee = occupiedLocker.calculateFee(Duration.between(occupiedLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
+        LocalDateTime endDateTime = dateTimeGenerator.generate();
         lockerRepository.replaceLocker(new Locker(lockerId, occupiedLocker.getSize()));
-        return fee;
+        return occupiedLocker.calculateFee(endDateTime);
     }
 
     public List<Long> getEmptyLockerIds() {

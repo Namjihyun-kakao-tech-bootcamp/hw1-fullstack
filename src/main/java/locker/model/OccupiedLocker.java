@@ -1,5 +1,6 @@
 package locker.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class OccupiedLocker extends Locker {
@@ -13,12 +14,12 @@ public class OccupiedLocker extends Locker {
         this.password = password;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Long calculateFee(LocalDateTime unlockedAt) {
+        return this.getSize().calculateFee(getTotalMinutes(unlockedAt));
     }
 
-    public Long calculateFee(Long totalMinutes) {
-        return this.getSize().calculateFee(totalMinutes);
+    private Long getTotalMinutes(LocalDateTime unlockedAt) {
+        return Duration.between(this.createdAt, unlockedAt).toMinutes();
     }
 
     public boolean matchPassword(String password) {
