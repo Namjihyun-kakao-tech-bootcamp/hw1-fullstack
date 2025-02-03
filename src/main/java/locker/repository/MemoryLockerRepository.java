@@ -7,6 +7,7 @@ import locker.model.Size;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemoryLockerRepository implements LockerRepository {
@@ -28,8 +29,8 @@ public class MemoryLockerRepository implements LockerRepository {
     }
 
     @Override
-    public Locker getLocker(Long id) {
-        return lockers.get(id);
+    public Optional<Locker> getLocker(Long id) {
+        return Optional.ofNullable(lockers.get(id));
     }
 
     @Override
