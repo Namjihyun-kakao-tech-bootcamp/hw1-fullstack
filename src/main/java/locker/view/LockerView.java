@@ -14,7 +14,7 @@ public abstract class LockerView extends View {
     }
 
     public String selectionCommand() {
-        return "원하는 동작을 선택하세요. >> ";
+        return "원하는 동작을 선택하세요 >> ";
     }
 
     public int readMenuSelection() {
@@ -29,6 +29,15 @@ public abstract class LockerView extends View {
         if (number < 1 || number > 3) {
             throw new IllegalArgumentException("올바른 선택지가 아닙니다.");
         }
+    }
+
+    public String passwordCommand() {
+        return "암호를 입력하세요 >> ";
+    }
+
+    public String readPasswordInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 
     public abstract String status(Long col, List<Long> occupiedLockerIds);
