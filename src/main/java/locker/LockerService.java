@@ -21,8 +21,14 @@ public class LockerService {
     public Long lock(Long lockerId) {
         Locker existingLocker = lockerRepository.getLocker(lockerId);
         lockerRepository.replaceLocker(new OccupiedLocker(
-                existingLocker.getId(), existingLocker.getSize(), dateTimeGenerator.generate(), passwordGenerator.generate()
+                lockerId, existingLocker.getSize(), dateTimeGenerator.generate(), passwordGenerator.generate()
         ));
-        return existingLocker.getId();
+        return lockerId;
+    }
+
+    public Long unlock(Long lockerId) {
+        Locker existingLocker = lockerRepository.getLocker(lockerId);
+        lockerRepository.replaceLocker(new Locker(lockerId, existingLocker.getSize()));
+        return lockerId;
     }
 }
