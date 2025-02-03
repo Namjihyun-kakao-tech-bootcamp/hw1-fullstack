@@ -5,6 +5,7 @@ import locker.model.Locker;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemoryLockerRepository implements LockerRepository {
@@ -18,11 +19,12 @@ public class MemoryLockerRepository implements LockerRepository {
 
     @Override
     public Long saveLocker(Locker locker) {
-        return lockers.put(locker.getId(), locker).getId();
+        return Objects.requireNonNull(lockers.put(locker.getId(), locker)).getId();
     }
 
     @Override
     public List<Locker> getOccupiedLockers() {
+        // TODO : 사용 중인 Locker의 List를 반환하는 메서드 구현
         return List.of();
     }
 }
