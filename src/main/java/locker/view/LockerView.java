@@ -28,6 +28,11 @@ public abstract class LockerView extends View {
         return scanner.nextLine();
     }
 
+    public void readEnter() {
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+
     public Long readLockerIdInput() {
         Scanner scanner = new Scanner(System.in);
         return Long.valueOf(scanner.nextLine());
@@ -51,6 +56,10 @@ public abstract class LockerView extends View {
 
     public void writeLockerNumberCommand() {
         this.show("물품을 보관할 보관함의 번호를 입력하세요 >> ");
+    }
+
+    public void writeLockerPassword(Long id, String password) {
+        this.show(String.format("%d번 보관함이 열렸습니다. 물건을 넣고 문을 닫아 주세요.\n비밀번호는 %s입니다.\n처음으로 돌아가려면 Enter를 눌러 주세요.\n", id, password));
     }
 
     public void writePasswordInputCommand() {
