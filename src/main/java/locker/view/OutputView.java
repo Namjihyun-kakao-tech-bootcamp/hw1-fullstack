@@ -13,7 +13,7 @@ public abstract class OutputView {
     }
 
     public String menu() {
-        return "\n메뉴를 선택해 주세요.\n===================\n1. 물품 보관\n2. 물품 회수\n3. 종료\n===================\n";
+        return "===================\n1. 물품 보관\n2. 물품 회수\n3. 종료\n===================\n";
     }
 
     public abstract String status(Long col, List<Long> occupiedLockerIds);
