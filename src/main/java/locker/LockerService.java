@@ -28,8 +28,11 @@ public class LockerService {
         return passwordGenerator.generate();
     }
 
-    public Long unlock(Long lockerId) {
+    public Long unlock(Long lockerId, String passwordInput) {
         OccupiedLocker existingLocker = (OccupiedLocker) lockerRepository.getLocker(lockerId);
+        if (!existingLocker.matchPassword(passwordInput)) {
+            throw new IllegalStateException("틀린 암호입니다.");
+        }
         Long fee = existingLocker.calculateFee(Duration.between(existingLocker.getCreatedAt(), dateTimeGenerator.generate()).toMinutes());
         lockerRepository.replaceLocker(new Locker(lockerId, existingLocker.getSize()));
         return fee;

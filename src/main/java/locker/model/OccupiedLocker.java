@@ -20,4 +20,8 @@ public class OccupiedLocker extends Locker {
     public Long calculateFee(Long totalMinutes) {
         return this.getSize().calculateFee(totalMinutes);
     }
+
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
+    }
 }
