@@ -9,4 +9,8 @@ public class Locker {
         this.id = id;
         this.size = size;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
